@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
     private SantaMode _mode = SantaMode.Jumpy;
     public SantaMode mode { get { return _mode; } }
 
-    private List<InteractiveZone> interactiveZones = new List<InteractiveZone>();
+    public List<InteractiveZone> interactiveZones = new List<InteractiveZone>();
 
     void Start() {
         cam = Camera.main;
@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour {
                 break;
             case SantaMode.SleighDriver:
                 if(vehicle){
-                    if(Input.GetButtonDown("Fire1")) Dismount();
+                    if(Input.GetButtonDown("Interact")) Dismount();
                     else vehicle.UpdateFromDriver(inputDirection);
                 } else {
                     Dismount();
@@ -101,31 +101,41 @@ public class PlayerController : MonoBehaviour {
                 break;
         }
 
-        UpdateUI();
         UpdateAnimations();
+        UpdateUI();
     }
     void UpdateAnimations(){
-        // if TRYING TO MOVE
-        if (inputDirection.sqrMagnitude > .15f) {
-            // turn to face the correct direction
-            transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.LookRotation(inputDirection, Vector3.up), .001f, Time.fixedDeltaTime);
+        switch(mode){
+            case SantaMode.Jumpy:
+                // if TRYING TO MOVE
+                if (inputDirection.sqrMagnitude > .15f) {
+                    // turn to face the correct direction
+                    transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.LookRotation(inputDirection, Vector3.up), .001f, Time.fixedDeltaTime);
+                }
+                animator?.SetBool("in air", !isGrounded);
+                animator?.SetFloat("vertical speed", Mathf.Clamp(verticalVelocity / -8, -1, 1));
+                animator?.SetFloat("horizontal input", inputDirection.sqrMagnitude);
+                break;
+            case SantaMode.SleighDriver:
+                animator?.SetBool("in air", false);
+                animator?.SetFloat("vertical speed", 0);
+                animator?.SetFloat("horizontal input", 0);
+            break;
         }
-        animator?.SetBool("in air", !isGrounded);
-        animator?.SetFloat("vertical speed", Mathf.Clamp(verticalVelocity / -8, -1, 1));
-        animator?.SetFloat("horizontal input", inputDirection.sqrMagnitude);
+
     }
     void UpdateUI(){
 
         if(hud) {
             string prompt = "";
-            if(interactiveZones.Count > 0){
+            if(mode == SantaMode.Jumpy && interactiveZones.Count > 0){
                 InteractiveZone zone = interactiveZones
                     .Where(z => z.playerShouldFaceCenter == false || Vector3.Dot(z.transform.position - this.transform.position, this.transform.forward) >.25f)
                     .OrderBy(z => z.interactPriority)
                     .FirstOrDefault();
                 if(zone){
                     prompt = zone.interactPrompt;
-                    if(Input.GetButtonDown("Fire1")) zone.Interact(this);
+                    if(Input.GetButtonDown("Interact")) zone.Interact(this);
                 }
             }
             hud.textfield_interactprompt.text = prompt;
@@ -149,10 +159,15 @@ public class PlayerController : MonoBehaviour {
         this.pawn.enabled = false;
         this.transform.parent = vehicle.transform;
         this.transform.localPosition = Vector3.up;
+        this.transform.localRotation = Quaternion.identity;
+        this.interactiveZones.Clear();
     }
     public void Dismount(){
         _mode = SantaMode.Jumpy;
+        vehicle.UpdateFromDriver(Vector3.zero);
+        float yaw = this.transform.eulerAngles.y;
         this.transform.parent = null;
+        this.transform.rotation = Quaternion.Euler(0, yaw, 0);
         this.pawn.enabled = true;
         LaunchUp(1.25f);
     }
