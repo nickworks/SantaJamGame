@@ -24,7 +24,7 @@ public class CameraOrbit : MonoBehaviour {
     void Update() {
         PlayerOrbitCamera();
 
-        if(moveScript) transform.position = AnimMath.Slide(transform.position, moveScript.transform.position, .001f);
+        if(moveScript.mode == SantaMode.Jumpy) transform.position = AnimMath.Slide(transform.position, moveScript.transform.position, .001f);
 
         // if aiming, set camera's rotation to look at target
         RotateCamToLookAtTarget();
@@ -33,6 +33,9 @@ public class CameraOrbit : MonoBehaviour {
         ZoomCamera();
 
         ShakeCamera();
+    }
+    void FixedUpdate(){
+        if(moveScript.mode == SantaMode.SleighDriver) transform.position = AnimMath.Slide(transform.position, moveScript.transform.position, .001f, Time.fixedDeltaTime);
     }
 
     public void Shake(float intensity = 1) {
