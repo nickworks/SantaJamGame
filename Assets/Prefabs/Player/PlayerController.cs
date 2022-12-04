@@ -83,13 +83,6 @@ public class PlayerController : MonoBehaviour {
         switch(mode){
             case SantaMode.Jumpy:
                 UpdateVerticalVelocity();
-                // move pawn
-                Vector3 moveDelta = inputDirection * walkSpeed + verticalVelocity * Vector3.down;
-                CollisionFlags flags = pawn.Move(moveDelta * Time.deltaTime);
-                if (pawn.isGrounded) {
-                    verticalVelocity = 0;
-                    timeLeftGrounded = .2f;
-                }
                 break;
             case SantaMode.SleighDriver:
                 if(vehicle){
@@ -103,6 +96,22 @@ public class PlayerController : MonoBehaviour {
 
         UpdateAnimations();
         UpdateUI();
+    }
+    void FixedUpdate(){
+        switch(mode){
+            case SantaMode.Jumpy:
+                UpdateVerticalVelocity();
+                // move pawn
+                Vector3 moveDelta = inputDirection * walkSpeed + verticalVelocity * Vector3.down;
+                CollisionFlags flags = pawn.Move(moveDelta * Time.fixedDeltaTime);
+                if (pawn.isGrounded) {
+                    verticalVelocity = 0;
+                    timeLeftGrounded = .2f;
+                }
+                break;
+            case SantaMode.SleighDriver:
+                break;
+        }
     }
     void UpdateAnimations(){
         switch(mode){

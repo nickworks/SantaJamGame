@@ -17,7 +17,6 @@ public class ReindeerTeam : MonoBehaviour
     private Rigidbody body;
 
     void PositionDeer(){
-        float z = spaceBehind;
         int deerInRow = deer.Count;
         for(int ii = 0; ii < deerInRow; ii++){
             float x = 0;
@@ -25,7 +24,7 @@ public class ReindeerTeam : MonoBehaviour
                 float w = (deerInRow - 1) * spaceSide;
                 x += spaceSide * ii - w / 2;
             }
-            deer[ii].transform.localPosition = new Vector3(x, 0, z);
+            deer[ii].transform.localPosition = new Vector3(x, 0, 0);
         }
     }
     public void AddDeer(int num){
@@ -89,6 +88,13 @@ public class ReindeerTeam : MonoBehaviour
         }
     }
     public void FixedUpdate(){
+        //if(joint.connectedBody){
+        //    // rotate
+        //    Vector3 toNextRow = transform.TransformPoint(joint.anchor) - joint.connectedBody.transform.position;
+        //    Quaternion rot = Quaternion.FromToRotation(Vector3.forward, toNextRow);
+        //    joint.connectedBody.AddTorque(rot.eulerAngles * 100);
+        //}
+        if(pawn.enabled == false) return;
 
         Vector3 steerForce = inputDirection * maxSpeed - moveDirection;
         moveDirection += steerForce * Time.fixedDeltaTime;

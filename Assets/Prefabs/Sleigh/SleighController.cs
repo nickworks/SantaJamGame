@@ -49,10 +49,10 @@ public class SleighController : MonoBehaviour
         //}
 
         // rotate to face up:
-        float amount = Vector3.Dot(transform.up, Vector3.up);
-        amount = AnimMath.Map(amount, -1, 1, 500, 0);
-        Vector3 axis = Vector3.Cross(transform.up, Vector3.up);
-        sleigh_body.AddTorque(axis * amount * Time.fixedDeltaTime);
+        //float amount = Vector3.Dot(transform.up, Vector3.up);
+        //amount = AnimMath.Map(amount, -1, 1, 500, 0);
+        //Vector3 axis = Vector3.Cross(transform.up, Vector3.up);
+        //sleigh_body.AddTorque(axis * amount * Time.fixedDeltaTime);
     }
     public void LaunchUp(float jumpMultiplier = 1.5f){
         verticalVelocity = -jumpImpulse * jumpMultiplier;
