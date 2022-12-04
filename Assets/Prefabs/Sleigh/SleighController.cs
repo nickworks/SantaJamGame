@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SleighController : MonoBehaviour
@@ -11,7 +12,8 @@ public class SleighController : MonoBehaviour
 
     public float jumpImpulse = 5;
 
-    public List<ReindeerController> attachedReindeer = new List<ReindeerController>();
+    public ReindeerTeam reindeerTeam;
+    public ReindeerTeam reindeerTeamPrefab;
     
     ///<summary>the input, in world space</summary>
     private Vector3 inputDirection = new Vector3();
@@ -38,10 +40,13 @@ public class SleighController : MonoBehaviour
 
         inputDirection = inputDir;
 
-        foreach(ReindeerController deer in attachedReindeer){
-            deer.UpdateFromDriver(inputDirection);
-        }
+        reindeerTeam?.UpdateFromDriver(inputDir);
 
+        //foreach(ReindeerController deer in attachedReindeer){
+        //    deer.UpdateFromDriver(inputDirection);
+        //}
+
+        // rotate to face up:
         float amount = Vector3.Dot(transform.up, Vector3.up);
         amount = AnimMath.Map(amount, -1, 1, 500, 0);
         Vector3 axis = Vector3.Cross(transform.up, Vector3.up);
@@ -52,5 +57,45 @@ public class SleighController : MonoBehaviour
     }
     public void Possess(PlayerController player){
         player.Mount(this);
+    }
+    public void AddReindeerTeam(){
+
+        Transform xform = reindeerTeam?.Last().transform??transform;
+        Vector3 pos = xform.position + xform.forward * 6;
+        Quaternion rot = Quaternion.Euler(0,xform.eulerAngles.y,0);
+
+        ReindeerTeam newTeam = Instantiate(reindeerTeamPrefab, pos, rot);
+        newTeam.AddDeer(2);
+
+        if(reindeerTeam){
+            reindeerTeam.AddTeam(newTeam);
+        } else {
+            reindeerTeam = newTeam;
+            ConfigurableJoint joint = newTeam.GetComponent<ConfigurableJoint>();
+            joint.connectedBody = sleigh_body;
+        }
+    }
+    public void RemoveReindeerTeam(){
+        if(reindeerTeam.nextRow == null){
+            Destroy(reindeerTeam.gameObject);
+            reindeerTeam = null;
+        } else {
+            reindeerTeam.RemoveLastRow();
+        }
+    }
+}
+
+[CustomEditor(typeof(SleighController))]
+public class SleighControllerEditor : Editor {
+    public override void OnInspectorGUI()
+    {
+        SleighController sleigh = target as SleighController;
+        base.OnInspectorGUI();
+        if(GUILayout.Button("Add reindeer row")){
+            sleigh.AddReindeerTeam();
+        }
+        if(GUILayout.Button("Remove last row")){
+            sleigh.RemoveReindeerTeam();
+        }
     }
 }

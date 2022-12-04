@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class InteractiveZone : MonoBehaviour
 {
-    Collider collider;
     public bool playerShouldFaceCenter = true;
     //[Tooltip()]
     public int interactPriority = 1;
@@ -16,7 +15,6 @@ public class InteractiveZone : MonoBehaviour
 
     void Start()
     {
-        collider= GetComponent<Collider>();
     }
     public void Interact(PlayerController player){
         onPlayerInteract.Invoke(player);

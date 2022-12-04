@@ -413,7 +413,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh20224
+  m_Name: pb_Mesh20088
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1005,17 +1005,6 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaAO: 1
   m_PVRTiledBaking: 0
   m_NumRaysToShootPerTexel: -1
---- !u!114 &1893986388 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5108314774048910967, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-  m_PrefabInstance: {fileID: 5108314773258460707}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82d777cdfe8b34365a6fb4fd0494bb46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1907997743
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,11 +1139,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
---- !u!54 &2032169519 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 4837478042751638906, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
-  m_PrefabInstance: {fileID: 4837478041826815829}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2047771016
 GameObject:
   m_ObjectHideFlags: 0
@@ -3000,9 +2984,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
+      propertyPath: reindeerTeam
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
+      propertyPath: reindeerTeamPrefab
+      value: 
+      objectReference: {fileID: 235413638979955910, guid: cbd2b790f9a3848cda3ae011264979b5, type: 3}
+    - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
+      propertyPath: attachedReindeer.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
       propertyPath: attachedReindeer.Array.data[0]
       value: 
-      objectReference: {fileID: 1893986388}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
+      propertyPath: attachedReindeer.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4837478042751638885, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -3047,6 +3047,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4837478042751638906, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
+      propertyPath: m_Drag
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4837478042751638907, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
       propertyPath: m_Name
       value: Sleigh
@@ -3054,66 +3058,3 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
---- !u!1001 &5108314773258460707
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.475
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.3049388
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 11.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910960, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910962, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_Name
-      value: Reindeer
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108314774048910971, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-      propertyPath: m_ConnectedBody
-      value: 
-      objectReference: {fileID: 2032169519}
-    m_RemovedComponents: []
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}

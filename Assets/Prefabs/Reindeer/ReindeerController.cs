@@ -7,9 +7,13 @@ public class ReindeerController : MonoBehaviour
 {
     CharacterController pawn;
     public float speed = 4;
+
+    public float maxSpeed = 10;
+
     private float verticalVelocity = 0;
     public float gravityMultiplier = 10;
     private Vector3 inputDirection;
+    private Vector3 moveDirection;
 
     void Start(){
         pawn = GetComponent<CharacterController>();
@@ -22,7 +26,11 @@ public class ReindeerController : MonoBehaviour
         inputDirection = inputDir;
     }
     public void FixedUpdate(){
-        pawn.Move((inputDirection * speed + verticalVelocity * Vector3.down)  * Time.fixedDeltaTime);
+
+        Vector3 steerForce = inputDirection * maxSpeed - moveDirection;
+        moveDirection += steerForce * Time.fixedDeltaTime;
+
+        //pawn.Move((moveDirection * speed + verticalVelocity * Vector3.down)  * Time.fixedDeltaTime);
         if (pawn.isGrounded) {
             verticalVelocity = 0;
         }
@@ -31,7 +39,7 @@ public class ReindeerController : MonoBehaviour
         // if TRYING TO MOVE
         if (inputDirection.sqrMagnitude > .15f) {
             // turn to face the correct direction
-            transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.LookRotation(inputDirection, Vector3.up), .001f);
+            transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), .001f);
         }
     }
 }
