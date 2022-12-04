@@ -1084,6 +1084,14 @@ PrefabInstance:
       propertyPath: moveScript
       value: 
       objectReference: {fileID: 3779556}
+    - target: {fileID: 2092350713342041508, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
+      propertyPath: cameraStickSensitivityX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092350713342041508, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
+      propertyPath: cameraStickSensitivityY
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2092350713342041509, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
       propertyPath: m_RootOrder
       value: 3

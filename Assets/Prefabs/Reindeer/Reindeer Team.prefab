@@ -54,6 +54,7 @@ MonoBehaviour:
   spaceSide: 1.8
   spaceFront: 3
   spaceBehind: 2
+  _nextRow: {fileID: 0}
   speed: 4
   maxSpeed: 10
   gravityMultiplier: 10
@@ -127,18 +128,18 @@ ConfigurableJoint:
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 10
-    positionDamper: 10
+    positionSpring: 0
+    positionDamper: 0
     maximumForce: 300
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 10
-    positionDamper: 10
+    positionSpring: 0
+    positionDamper: 0
     maximumForce: 300
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 10
-    positionDamper: 10
+    positionSpring: 0
+    positionDamper: 0
     maximumForce: 300
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}

@@ -35,6 +35,8 @@ public class SleighController : MonoBehaviour
                 pc.Mount(this);
             }
         }
+        if(Input.GetButtonDown("More Deer")) AddReindeerTeam();
+        if(Input.GetButtonDown("Less Deer")) RemoveReindeerTeam();
     }
     public void UpdateFromDriver(Vector3 inputDir) {
 

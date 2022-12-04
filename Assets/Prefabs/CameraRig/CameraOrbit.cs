@@ -10,8 +10,10 @@ public class CameraOrbit : MonoBehaviour {
     private float yaw = 0;
     private float pitch = 0;
 
-    public float cameraSensitivityX = 10;
-    public float cameraSensitivityY = 10;
+    public float cameraMouseSensitivityX = 10;
+    public float cameraMouseSensitivityY = 10;
+    public float cameraStickSensitivityX = 10;
+    public float cameraStickSensitivityY = 10;
 
     public float shakeIntensity = 0;
 
@@ -86,12 +88,19 @@ public class CameraOrbit : MonoBehaviour {
     }
 
     private void PlayerOrbitCamera() {
-        float mx = Input.GetAxisRaw("Mouse X");
-        float my = Input.GetAxisRaw("Mouse Y");
+        float mx1 = Input.GetAxisRaw("Mouse X") * cameraMouseSensitivityX;
+        float my1 = Input.GetAxisRaw("Mouse Y") * cameraMouseSensitivityY;
 
-        yaw += mx * cameraSensitivityX;
-        pitch += my * cameraSensitivityY;
+        float mx2 = Input.GetAxisRaw("CameraX") * cameraStickSensitivityX;
+        float my2 = Input.GetAxisRaw("CameraY") * cameraStickSensitivityY;
 
+        if(Mathf.Abs(mx1) + Mathf.Abs(my1) > Mathf.Abs(mx2) + Mathf.Abs(my2)){
+            yaw += mx1;
+            pitch += my1;
+        } else {
+            yaw += mx2;
+            pitch += my2;
+        }
 
         if (IsTargeting()) { // z-targeting:
 
