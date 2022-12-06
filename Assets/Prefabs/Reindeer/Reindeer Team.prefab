@@ -50,9 +50,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabReindeer: {fileID: 5108314774048910967, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-  spaceSide: 1.8
-  spaceFront: 3
-  spaceBehind: 2
+  hoverCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0011325069
+      value: 1.0019231
+      inSlope: 0.07347552
+      outSlope: 0.07347552
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.13363576
+    - serializedVersion: 3
+      time: 0.98413086
+      value: -0.0019226074
+      inSlope: -1.7837806
+      outSlope: -1.7837806
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.039634366
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hoverHeight: 30
+  hoverForce: 200
+  spaceBetweenDeer: 2
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 128
   _nextRow: {fileID: 0}
   speed: 4
   maxSpeed: 10
@@ -68,7 +95,7 @@ Rigidbody:
   m_Mass: 100
   m_Drag: 10
   m_AngularDrag: 10
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -83,12 +110,12 @@ ConfigurableJoint:
   m_ConnectedBody: {fileID: 0}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: -2.7}
-  m_Axis: {x: 1, y: 0, z: 0}
+  m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 2.49926, y: 2.110495, z: 8.8}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 0, y: 1, z: 0}
-  m_XMotion: 2
+  m_SecondaryAxis: {x: 1, y: 0, z: 0}
+  m_XMotion: 1
   m_YMotion: 1
   m_ZMotion: 1
   m_AngularXMotion: 2
@@ -99,11 +126,11 @@ ConfigurableJoint:
     damper: 100
   m_LinearLimit:
     limit: 0.2
-    bounciness: 1
+    bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 0
-    damper: 0
+    spring: 10000
+    damper: 100
   m_LowAngularXLimit:
     limit: 0
     bounciness: 0
@@ -127,32 +154,32 @@ ConfigurableJoint:
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 10
+    positionSpring: 500
     positionDamper: 10
     maximumForce: 300
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 10
+    positionSpring: 500
     positionDamper: 10
     maximumForce: 300
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 10
+    positionSpring: 500
     positionDamper: 10
     maximumForce: 300
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
-  m_RotationDriveMode: 1
+  m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 0
+    positionSpring: 1000
     positionDamper: 0
-    maximumForce: 3.4028233e+38
+    maximumForce: 300
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 0
+    positionSpring: 1000
     positionDamper: 0
-    maximumForce: 3.4028233e+38
+    maximumForce: 300
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -161,7 +188,7 @@ ConfigurableJoint:
   m_ProjectionMode: 0
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
-  m_ConfiguredInWorldSpace: 0
+  m_ConfiguredInWorldSpace: 1
   m_SwapBodies: 0
   m_BreakForce: Infinity
   m_BreakTorque: Infinity

@@ -83,8 +83,10 @@ public class PlayerController : MonoBehaviour {
         switch(mode){
             case SantaMode.Jumpy:
                 UpdateVerticalVelocity();
+                cam.fieldOfView = AnimMath.Slide(cam.fieldOfView, 60, .001f);
                 break;
             case SantaMode.SleighDriver:
+                cam.fieldOfView = AnimMath.Slide(cam.fieldOfView, 100, .001f);
                 if(vehicle){
                     if(Input.GetButtonDown("Interact")) Dismount();
                     else vehicle.UpdateFromDriver(inputDirection);

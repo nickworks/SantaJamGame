@@ -6,10 +6,11 @@ using UnityEditor;
 public class ReindeerTeam : MonoBehaviour
 {
     public ReindeerController prefabReindeer;
-    public float spaceSide = 2;
-    public float spaceFront = 3;
-    public float spaceBehind = 1;
-    
+    public AnimationCurve hoverCurve;
+    public float hoverHeight = 2;
+    public float hoverForce = 1000;
+    public float spaceBetweenDeer = 2;
+    public LayerMask terrainMask;
     private List<ReindeerController> deer = new List<ReindeerController>();
     public ReindeerTeam _nextRow;
     public ReindeerTeam nextRow { get { return _nextRow; } }
@@ -21,8 +22,8 @@ public class ReindeerTeam : MonoBehaviour
         for(int ii = 0; ii < deerInRow; ii++){
             float x = 0;
             if(deerInRow > 1){
-                float w = (deerInRow - 1) * spaceSide;
-                x += spaceSide * ii - w / 2;
+                float w = (deerInRow - 1) * spaceBetweenDeer;
+                x += spaceBetweenDeer * ii - w / 2;
             }
             deer[ii].transform.localPosition = new Vector3(x, 0, 0);
         }
@@ -65,7 +66,7 @@ public class ReindeerTeam : MonoBehaviour
     CharacterController pawn;
     ConfigurableJoint joint;
     public float speed = 4;
-    public float maxSpeed = 10;
+    public float maxSpeed = 1;
     private float verticalVelocity = 0;
     public float gravityMultiplier = 10;
     private Vector3 inputDirection;
@@ -77,6 +78,7 @@ public class ReindeerTeam : MonoBehaviour
         body = GetComponent<Rigidbody>();
     }
     public void Update(){
+        
         verticalVelocity += gravityMultiplier * Time.deltaTime;
         UpdateAnimations();
     }
@@ -85,24 +87,52 @@ public class ReindeerTeam : MonoBehaviour
             nextRow?.UpdateFromDriver(inputDir);
         } else {
             inputDirection = inputDir;
+            LookAhead();
         }
     }
     public void FixedUpdate(){
-        //if(joint.connectedBody){
-        //    // rotate
-        //    Vector3 toNextRow = transform.TransformPoint(joint.anchor) - joint.connectedBody.transform.position;
-        //    Quaternion rot = Quaternion.FromToRotation(Vector3.forward, toNextRow);
-        //    joint.connectedBody.AddTorque(rot.eulerAngles * 100);
-        //}
         if(pawn.enabled == false) return;
 
         Vector3 steerForce = inputDirection * maxSpeed - moveDirection;
         moveDirection += steerForce * Time.fixedDeltaTime;
 
+        Hover();
+
         if(pawn.enabled) pawn.Move((moveDirection * speed + verticalVelocity * Vector3.down)  * Time.fixedDeltaTime);
         if (pawn.isGrounded) {
             verticalVelocity = 0;
         }
+    }
+    void Hover(){
+        Vector3 origin = transform.position;
+        Debug.DrawLine(origin, origin + Vector3.down * hoverHeight);
+        if(Physics.SphereCast(origin, 0.5f, Vector3.down, out RaycastHit hit1, hoverHeight, terrainMask)){
+            if(body){
+                float percent = hit1.distance/hoverHeight;
+                float acceleration = hoverForce * hoverCurve.Evaluate(percent);
+                acceleration *= moveDirection.sqrMagnitude / 1000;
+                verticalVelocity -= acceleration * Time.deltaTime;
+            }
+        }
+    }
+    void LookAhead(){
+        float speed = moveDirection.magnitude;
+        Vector3 offest = transform.forward + moveDirection * (1 + speed) / speed;
+        Vector3 origin = transform.position + offest + Vector3.up * 5;
+        //Debug.DrawLine(origin, origin + Vector3.down * 10.0f);
+        //if(Physics.SphereCast(
+        //    origin,
+        //    2.0f,
+        //    Vector3.down,
+        //    out RaycastHit hit2,
+        //    10.0f,
+        //    terrainMask
+        //    )){
+        //    if(hit2.distance < 10){
+        //        float boost = (10f - hit2.distance) * gravityMultiplier * 1.1f;
+        //        verticalVelocity -= (boost) * Time.deltaTime;
+        //    }
+        //}
     }
     void UpdateAnimations(){
         // if TRYING TO MOVE
