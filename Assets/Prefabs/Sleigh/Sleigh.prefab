@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpImpulse: 5
   reindeerTeam: {fileID: 0}
-  reindeerTeamPrefab: {fileID: 0}
+  reindeerTeamPrefab: {fileID: 235413638979955910, guid: cbd2b790f9a3848cda3ae011264979b5, type: 3}
 --- !u!1 &4837478042955291600
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraOrbit : MonoBehaviour {
 
-    public PlayerController moveScript;
+    public PlayerController player;
     private Camera cam;
 
     private float yaw = 0;
@@ -15,78 +15,19 @@ public class CameraOrbit : MonoBehaviour {
     public float cameraStickSensitivityX = 10;
     public float cameraStickSensitivityY = 10;
 
-    public float shakeIntensity = 0;
-
-
     private void Start() {
         cam = GetComponentInChildren<Camera>();
 
     }
-
     void Update() {
         PlayerOrbitCamera();
-
-        if(moveScript.mode == SantaMode.Jumpy) transform.position = AnimMath.Slide(transform.position, moveScript.transform.position, .001f);
-
-        // if aiming, set camera's rotation to look at target
-        RotateCamToLookAtTarget();
-
-        // "zoom" in the camera
-        ZoomCamera();
-
-        ShakeCamera();
     }
     void FixedUpdate(){
-        if(moveScript.mode == SantaMode.SleighDriver) transform.position = AnimMath.Slide(transform.position, moveScript.transform.position, .001f, Time.fixedDeltaTime);
+        // ease towards target:
+        transform.position = AnimMath.Slide(transform.position, player.transform.position, .001f, Time.fixedDeltaTime);
+        // rotate camera towards pitch/yaw:
+        transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.Euler(pitch, yaw, 0), .001f, Time.fixedDeltaTime);
     }
-
-    public void Shake(float intensity = 1) {
-        shakeIntensity = intensity;
-    }
-
-    private void ShakeCamera() {
-
-        if (shakeIntensity < 0) shakeIntensity = 0;
-
-        if (shakeIntensity > 0) shakeIntensity -= Time.deltaTime;
-        else return; // shake intensity is 0, so do nothing...
-
-        // pick a SMALL random rotation:
-        Quaternion targetRot = AnimMath.Lerp(Random.rotation, Quaternion.identity, .99f);
-
-        //cam.transform.localRotation *= targetRot;
-        cam.transform.localRotation = AnimMath.Lerp(cam.transform.localRotation, cam.transform.localRotation * targetRot, shakeIntensity * shakeIntensity);
-    }
-
-    private void ZoomCamera() {
-
-        float dis = 10;
-        if (IsTargeting()) dis = 3;
-
-        cam.transform.localPosition = AnimMath.Slide(cam.transform.localPosition, new Vector3(0, 0, -dis), .001f);
-
-    }
-    private bool IsTargeting() {
-        return false;
-    }
-
-    private void RotateCamToLookAtTarget() {
-
-        if(IsTargeting()) {
-            // if targeting, set rotation to look at target
-
-            //Vector3 vToTarget = targetScript.target.position - cam.transform.position;
-            //Quaternion targetRot = Quaternion.LookRotation(vToTarget, Vector3.up);
-            //cam.transform.rotation = AnimMath.Slide(cam.transform.rotation, targetRot, .001f);
-
-        } else {
-            // if NOT targeting, reset rotation
-
-            cam.transform.localRotation = AnimMath.Slide(cam.transform.localRotation, Quaternion.identity, .001f); // no rotation...
-        }
-
-    }
-
     private void PlayerOrbitCamera() {
         float mx1 = Input.GetAxisRaw("Mouse X") * cameraMouseSensitivityX;
         float my1 = Input.GetAxisRaw("Mouse Y") * cameraMouseSensitivityY;
@@ -102,20 +43,6 @@ public class CameraOrbit : MonoBehaviour {
             pitch += my2;
         }
 
-        if (IsTargeting()) { // z-targeting:
-
-            pitch = Mathf.Clamp(pitch, 15, 60);
-
-            // find player yaw:
-            float playerYaw = moveScript.transform.eulerAngles.y;
-
-            // clamp camera-rig yaw to playerYaw +- 30:
-            yaw = Mathf.Clamp(yaw, playerYaw - 40, playerYaw + 40);
-
-        } else { // not targeting / free look:
-            pitch = Mathf.Clamp(pitch, -10, 89);
-        }
-
-        transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.Euler(pitch, yaw, 0), .001f);
+        pitch = Mathf.Clamp(pitch, -10, 89);
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2092350713342041509}
   - component: {fileID: 2092350713342041508}
+  - component: {fileID: 493579763481804503}
   m_Layer: 0
   m_Name: Camera Rig
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 2092350713775808598}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2092350713342041508
 MonoBehaviour:
@@ -45,10 +46,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6303789e5e6e24e96a58e164ddbda39c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveScript: {fileID: 0}
-  cameraSensitivityX: 10
-  cameraSensitivityY: -5
-  shakeIntensity: 0
+  player: {fileID: 0}
+  cameraMouseSensitivityX: 10
+  cameraMouseSensitivityY: 10
+  cameraStickSensitivityX: 1
+  cameraStickSensitivityY: 1
+--- !u!114 &493579763481804503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092350713342041511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9420cde0f4f427784f9441202e7bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thingsThatBlockCamera:
+    serializedVersion: 2
+    m_Bits: 128
+  desiredDistance: 10
 --- !u!1 &2092350713775808595
 GameObject:
   m_ObjectHideFlags: 0

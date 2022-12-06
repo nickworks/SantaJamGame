@@ -65,8 +65,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  gravityMultiplier: 20
+  gravityMultiplier: 10
   jumpImpulse: 10
+  interactiveZones: []
 --- !u!1001 &7092084284307043878
 PrefabInstance:
   m_ObjectHideFlags: 0

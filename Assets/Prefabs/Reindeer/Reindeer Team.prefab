@@ -50,40 +50,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabReindeer: {fileID: 5108314774048910967, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-  hoverCurve:
+  boostFalloff:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0011325069
-      value: 1.0019231
-      inSlope: 0.07347552
-      outSlope: 0.07347552
+      time: 0
+      value: 1
+      inSlope: -3.868923
+      outSlope: -3.868923
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.13363576
+      outWeight: 0.022650056
     - serializedVersion: 3
-      time: 0.98413086
-      value: -0.0019226074
-      inSlope: -1.7837806
-      outSlope: -1.7837806
+      time: 0.9932251
+      value: -0.0057678223
+      inSlope: -0.19413963
+      outSlope: -0.19413963
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.039634366
+      inWeight: 0.070215225
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hoverHeight: 30
-  hoverForce: 200
+  hoverHeight: 5
+  hoverMaxSpeed: 10
+  hoverForce: 20
   spaceBetweenDeer: 2
   terrainMask:
     serializedVersion: 2
     m_Bits: 128
   _nextRow: {fileID: 0}
-  speed: 4
-  maxSpeed: 10
-  gravityMultiplier: 10
+  speed: 5
+  gravityMultiplier: 5
 --- !u!54 &235413638979955906
 Rigidbody:
   m_ObjectHideFlags: 0

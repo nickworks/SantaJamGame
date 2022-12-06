@@ -6,9 +6,10 @@ using UnityEditor;
 public class ReindeerTeam : MonoBehaviour
 {
     public ReindeerController prefabReindeer;
-    public AnimationCurve hoverCurve;
+    public AnimationCurve boostFalloff;
     public float hoverHeight = 2;
-    public float hoverForce = 1000;
+    public float hoverMaxSpeed = 10;
+    public float hoverForce = 20;
     public float spaceBetweenDeer = 2;
     public LayerMask terrainMask;
     private List<ReindeerController> deer = new List<ReindeerController>();
@@ -66,7 +67,6 @@ public class ReindeerTeam : MonoBehaviour
     CharacterController pawn;
     ConfigurableJoint joint;
     public float speed = 4;
-    public float maxSpeed = 1;
     private float verticalVelocity = 0;
     public float gravityMultiplier = 10;
     private Vector3 inputDirection;
@@ -93,7 +93,7 @@ public class ReindeerTeam : MonoBehaviour
     public void FixedUpdate(){
         if(pawn.enabled == false) return;
 
-        Vector3 steerForce = inputDirection * maxSpeed - moveDirection;
+        Vector3 steerForce = inputDirection * speed - moveDirection;
         moveDirection += steerForce * Time.fixedDeltaTime;
 
         Hover();
@@ -104,13 +104,15 @@ public class ReindeerTeam : MonoBehaviour
         }
     }
     void Hover(){
+        float dis = hoverHeight;
         Vector3 origin = transform.position;
-        Debug.DrawLine(origin, origin + Vector3.down * hoverHeight);
-        if(Physics.SphereCast(origin, 0.5f, Vector3.down, out RaycastHit hit1, hoverHeight, terrainMask)){
+        Debug.DrawLine(origin, origin + Vector3.down * dis);
+        if(Physics.SphereCast(origin, 0.5f, Vector3.down, out RaycastHit hit1, dis, terrainMask)){
             if(body){
-                float percent = hit1.distance/hoverHeight;
-                float acceleration = hoverForce * hoverCurve.Evaluate(percent);
-                acceleration *= moveDirection.sqrMagnitude / 1000;
+                float percent1 = Mathf.Clamp(-verticalVelocity / hoverMaxSpeed, 0, 1);
+                float percent2 = Mathf.Clamp(hit1.distance / dis, 0, 1);
+                float percent = (percent1 + percent2)/2;
+                float acceleration = hoverForce * boostFalloff.Evaluate(percent);
                 verticalVelocity -= acceleration * Time.deltaTime;
             }
         }

@@ -413,7 +413,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh20078
+  m_Name: pb_Mesh20076
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1081,17 +1081,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2092350713342041508, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
-      propertyPath: moveScript
+      propertyPath: player
       value: 
       objectReference: {fileID: 3779556}
     - target: {fileID: 2092350713342041508, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
-      propertyPath: cameraStickSensitivityX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2092350713342041508, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
-      propertyPath: cameraStickSensitivityY
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: moveScript
+      value: 
+      objectReference: {fileID: 3779556}
     - target: {fileID: 2092350713342041509, guid: 96b9590cbea55449698f4faa60bd2064, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2991,14 +2987,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
-      propertyPath: reindeerTeam
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
-      propertyPath: reindeerTeamPrefab
-      value: 
-      objectReference: {fileID: 235413638979955910, guid: cbd2b790f9a3848cda3ae011264979b5, type: 3}
     - target: {fileID: 4837478042751638884, guid: 0803bdd55a8a64c8f99dc14a3d3441be, type: 3}
       propertyPath: attachedReindeer.Array.size
       value: 2
