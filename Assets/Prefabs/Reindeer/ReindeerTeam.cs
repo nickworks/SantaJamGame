@@ -3,20 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+[RequireComponent(typeof(Rigidbody),typeof(CharacterController),typeof(ConfigurableJoint))]
 public class ReindeerTeam : MonoBehaviour
 {
+    Rigidbody body;
+    CharacterController pawn;
+    ConfigurableJoint joint;
+    private ReindeerTeam _nextRow;
+    public ReindeerTeam nextRow { get { return _nextRow; } }
+    private List<ReindeerController> deer = new List<ReindeerController>();
+    private Vector3 inputDirection;
+    private Vector3 moveDirection;
+    private Vector3 faceDirection;
+    private Vector3 up;
+    private float verticalVelocity = 0;
+    [Header("Generation")]
     public ReindeerController prefabReindeer;
-    public AnimationCurve boostFalloff;
+    public float spaceBetweenDeer = 2;
+    [Header("Physics")]
+    public float accelerationFromInput = 4;
+    public float speedMultiplier = 4;
+    [Header("Flight Settings")]
+    public AnimationCurve hoverFalloff;
     public float hoverHeight = 2;
     public float hoverMaxSpeed = 10;
     public float hoverForce = 20;
-    public float spaceBetweenDeer = 2;
+    public float gravityMultiplier = 10;
     public LayerMask terrainMask;
-    private List<ReindeerController> deer = new List<ReindeerController>();
-    public ReindeerTeam _nextRow;
-    public ReindeerTeam nextRow { get { return _nextRow; } }
 
-    private Rigidbody body;
+    void Start(){
+        pawn = GetComponent<CharacterController>();
+        joint = GetComponent<ConfigurableJoint>();
+        body = GetComponent<Rigidbody>();
+    }
+    void OnValidate(){
+        PositionDeer();
+    }
 
     void PositionDeer(){
         int deerInRow = deer.Count;
@@ -64,21 +86,7 @@ public class ReindeerTeam : MonoBehaviour
         }
     }
 
-    CharacterController pawn;
-    ConfigurableJoint joint;
-    public float speed = 4;
-    private float verticalVelocity = 0;
-    public float gravityMultiplier = 10;
-    private Vector3 inputDirection;
-    private Vector3 moveDirection;
-
-    void Start(){
-        pawn = GetComponent<CharacterController>();
-        joint = GetComponent<ConfigurableJoint>();
-        body = GetComponent<Rigidbody>();
-    }
     public void Update(){
-        
         verticalVelocity += gravityMultiplier * Time.deltaTime;
         UpdateAnimations();
     }
@@ -93,12 +101,12 @@ public class ReindeerTeam : MonoBehaviour
     public void FixedUpdate(){
         if(pawn.enabled == false) return;
 
-        Vector3 steerForce = inputDirection * speed - moveDirection;
+        Vector3 steerForce = inputDirection * accelerationFromInput - moveDirection;
         moveDirection += steerForce * Time.fixedDeltaTime;
 
         Hover();
 
-        if(pawn.enabled) pawn.Move((moveDirection * speed + verticalVelocity * Vector3.down)  * Time.fixedDeltaTime);
+        if(pawn.enabled) pawn.Move((moveDirection * speedMultiplier + verticalVelocity * Vector3.down)  * Time.fixedDeltaTime);
         if (pawn.isGrounded) {
             verticalVelocity = 0;
         }
@@ -112,9 +120,12 @@ public class ReindeerTeam : MonoBehaviour
                 float percent1 = Mathf.Clamp(-verticalVelocity / hoverMaxSpeed, 0, 1);
                 float percent2 = Mathf.Clamp(hit1.distance / dis, 0, 1);
                 float percent = (percent1 + percent2)/2;
-                float acceleration = hoverForce * boostFalloff.Evaluate(percent);
+                float acceleration = hoverForce * hoverFalloff.Evaluate(percent);
                 verticalVelocity -= acceleration * Time.deltaTime;
             }
+            up = hit1.normal;
+        } else {
+            up = Vector3.up;
         }
     }
     void LookAhead(){
@@ -137,11 +148,13 @@ public class ReindeerTeam : MonoBehaviour
         //}
     }
     void UpdateAnimations(){
-        // if TRYING TO MOVE
-        if (inputDirection.sqrMagnitude > .15f) {
-            // turn to face the correct direction
-            transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), .001f);
+
+        if(moveDirection.sqrMagnitude > .01f) {
+            faceDirection = moveDirection;
         }
+        
+        Quaternion targetRotation = Quaternion.FromToRotation(Vector3.up, up) * Quaternion.LookRotation(faceDirection, Vector3.up);
+        transform.rotation = AnimMath.Slide(transform.rotation, targetRotation, .01f);
     }
 
 }

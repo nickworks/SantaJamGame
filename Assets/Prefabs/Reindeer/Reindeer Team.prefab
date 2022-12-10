@@ -50,40 +50,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabReindeer: {fileID: 5108314774048910967, guid: 0714f30b3c35f48d28465a94949714ad, type: 3}
-  boostFalloff:
+  spaceBetweenDeer: 2
+  accelerationFromInput: 1
+  speedMultiplier: 40
+  hoverFalloff:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -3.868923
-      outSlope: -3.868923
+      time: 0.0011328496
+      value: 0.99809474
+      inSlope: 0.04695062
+      outSlope: 0.04695062
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.022650056
+      outWeight: 0.082003124
     - serializedVersion: 3
-      time: 0.9932251
-      value: -0.0057678223
-      inSlope: -0.19413963
-      outSlope: -0.19413963
-      tangentMode: 0
+      time: 0.9954834
+      value: 0
+      inSlope: -1.0037655
+      outSlope: -1.0037655
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.070215225
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hoverHeight: 5
+  hoverHeight: 2
   hoverMaxSpeed: 10
-  hoverForce: 20
-  spaceBetweenDeer: 2
+  hoverForce: 0
+  gravityMultiplier: 20
   terrainMask:
     serializedVersion: 2
     m_Bits: 128
-  _nextRow: {fileID: 0}
-  speed: 5
-  gravityMultiplier: 5
 --- !u!54 &235413638979955906
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -92,14 +92,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235413638979955911}
   serializedVersion: 2
-  m_Mass: 100
+  m_Mass: 2
   m_Drag: 10
   m_AngularDrag: 10
   m_UseGravity: 1
   m_IsKinematic: 1
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!153 &235413638979955907
 ConfigurableJoint:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 100
     positionDamper: 0
     maximumForce: 300
   m_AngularYZDrive:
@@ -208,7 +208,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 1.67
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

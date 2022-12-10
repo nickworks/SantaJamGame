@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour {
     private CharacterController pawn;
     private HudController hud;
     private Animator animator;
-    private SleighController vehicle;
+    private SleighController _vehicle;
+    public SleighController vehicle { get { return _vehicle; } }
     public float walkSpeed = 5;
 
     public float gravityMultiplier = 10;
@@ -87,9 +88,9 @@ public class PlayerController : MonoBehaviour {
                 break;
             case SantaMode.SleighDriver:
                 cam.fieldOfView = AnimMath.Slide(cam.fieldOfView, 100, .001f);
-                if(vehicle){
+                if(_vehicle){
                     if(Input.GetButtonDown("Interact")) Dismount();
-                    else vehicle.UpdateFromDriver(inputDirection);
+                    else _vehicle.UpdateFromDriver(inputDirection);
                 } else {
                     Dismount();
                 }
@@ -166,16 +167,16 @@ public class PlayerController : MonoBehaviour {
     }
     public void Mount(SleighController vehicle){
         _mode = SantaMode.SleighDriver;
-        this.vehicle = vehicle;
+        this._vehicle = vehicle;
         this.pawn.enabled = false;
-        this.transform.parent = vehicle.transform;
+        this.transform.parent = _vehicle.transform;
         this.transform.localPosition = Vector3.up;
         this.transform.localRotation = Quaternion.identity;
         this.interactiveZones.Clear();
     }
     public void Dismount(){
         _mode = SantaMode.Jumpy;
-        vehicle.UpdateFromDriver(Vector3.zero);
+        _vehicle.UpdateFromDriver(Vector3.zero);
         float yaw = this.transform.eulerAngles.y;
         this.transform.parent = null;
         this.transform.rotation = Quaternion.Euler(0, yaw, 0);

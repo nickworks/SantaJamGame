@@ -23,8 +23,12 @@ public class CameraOrbit : MonoBehaviour {
         PlayerOrbitCamera();
     }
     void FixedUpdate(){
+
+        Vector3 easeTowards = player.transform.position;
+
         // ease towards target:
-        transform.position = AnimMath.Slide(transform.position, player.transform.position, .001f, Time.fixedDeltaTime);
+        transform.position = AnimMath.Slide(transform.position, easeTowards, .001f, Time.fixedDeltaTime);
+
         // rotate camera towards pitch/yaw:
         transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.Euler(pitch, yaw, 0), .001f, Time.fixedDeltaTime);
     }
