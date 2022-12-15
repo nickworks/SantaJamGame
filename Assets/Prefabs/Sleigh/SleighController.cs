@@ -44,15 +44,12 @@ public class SleighController : MonoBehaviour
 
         reindeerTeam?.UpdateFromDriver(inputDir);
 
-        //foreach(ReindeerController deer in attachedReindeer){
-        //    deer.UpdateFromDriver(inputDirection);
-        //}
-
         // rotate to face up:
-        //float amount = Vector3.Dot(transform.up, Vector3.up);
-        //amount = AnimMath.Map(amount, -1, 1, 500, 0);
-        //Vector3 axis = Vector3.Cross(transform.up, Vector3.up);
-        //sleigh_body.AddTorque(axis * amount * Time.fixedDeltaTime);
+        float amount = Vector3.Dot(transform.up, Vector3.up);
+        amount = AnimMath.Map(amount, -1, 1, 500, 0);
+
+        Vector3 axis = Vector3.Cross(transform.up, Vector3.up);
+        sleigh_body.AddTorque(axis * amount * Time.fixedDeltaTime);
     }
     public void LaunchUp(float jumpMultiplier = 1.5f){
         verticalVelocity = -jumpImpulse * jumpMultiplier;
@@ -63,7 +60,7 @@ public class SleighController : MonoBehaviour
     public void AddReindeerTeam(){
 
         Transform xform = reindeerTeam?.Last().transform??transform;
-        Vector3 pos = xform.position + xform.forward * 6;
+        Vector3 pos = xform.position + xform.forward * ReindeerTeam.space_between_rows;
         Quaternion rot = Quaternion.Euler(0,xform.eulerAngles.y,0);
 
         ReindeerTeam newTeam = Instantiate(reindeerTeamPrefab, pos, rot);
@@ -73,8 +70,7 @@ public class SleighController : MonoBehaviour
             reindeerTeam.AddTeam(newTeam);
         } else {
             reindeerTeam = newTeam;
-            ConfigurableJoint joint = newTeam.GetComponent<ConfigurableJoint>();
-            joint.connectedBody = sleigh_body;
+            newTeam.InitAtEnd(null, sleigh_body);
         }
     }
     public void RemoveReindeerTeam(){
