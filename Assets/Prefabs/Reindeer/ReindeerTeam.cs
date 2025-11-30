@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[RequireComponent(typeof(CharacterController),typeof(ConfigurableJoint))]
+[RequireComponent(typeof(SlopeBehavior),typeof(ConfigurableJoint))]
 public class ReindeerTeam : MonoBehaviour
 {
     static public float space_between_rows = 6;
-    CharacterController pawn;
+    SlopeBehavior pawn;
     ConfigurableJoint joint;
     private ReindeerTeam _nextRow;
     private ReindeerTeam _prevRow;
-    public ReindeerTeam nextRow { get { return _nextRow; } }
-    public ReindeerTeam prevRow { get { return _prevRow; } }
+    public ReindeerTeam nextRow { get => _nextRow; }
+    public ReindeerTeam prevRow { get => _prevRow; }
     private List<ReindeerController> deer = new List<ReindeerController>();
     private Vector3 inputDirection;
     private Vector3 moveDirection;
     private Vector3 faceDirection;
     private Vector3 up;
-    private float verticalVelocity = 0;
+    //private float verticalVelocity = 0;
     [Header("Generation")]
     public ReindeerController prefabReindeer;
     public float spaceBetweenDeer = 2;
@@ -34,7 +34,7 @@ public class ReindeerTeam : MonoBehaviour
     public LayerMask terrainMask;
 
     void Start(){
-        pawn = GetComponent<CharacterController>();
+        pawn = GetComponent<SlopeBehavior>();
         joint = GetComponent<ConfigurableJoint>();
     }
     void OnValidate(){
@@ -46,8 +46,7 @@ public class ReindeerTeam : MonoBehaviour
         joint = GetComponent<ConfigurableJoint>();
         joint.connectedBody = body;
 
-        pawn = GetComponent<CharacterController>();
-        pawn.enabled = true;
+        pawn = GetComponent<SlopeBehavior>();
     }
     void PositionDeer(){
         int deerInRow = deer.Count;
@@ -107,24 +106,14 @@ public class ReindeerTeam : MonoBehaviour
         Rotate();
     }
     void Hover(){
-        
-        verticalVelocity += gravityMultiplier * Time.fixedDeltaTime;
-
-        float dis = hoverHeight;
-        Vector3 origin = transform.position;
-        Debug.DrawLine(origin, origin + Vector3.down * dis);
-        if(Physics.SphereCast(origin, 0.5f, Vector3.down, out RaycastHit hit1, dis, terrainMask)){
-
-            float halfHeight = (pawn.radius * 2 > pawn.height) ? pawn.radius : pawn.height/2;
-            float distance = hit1.distance - halfHeight;
-
-            float percent1 = Mathf.Clamp(-verticalVelocity / hoverMaxSpeed, 0, 1);
-            float percent2 = Mathf.Clamp(distance / dis, 0, 1);
+        if(pawn.RayCastForGround(out RaycastHit hit1, out float distanceToGround, hoverHeight)){
+            float percent1 = Mathf.Clamp(-pawn.verticalVelocity / hoverMaxSpeed, 0, 1);
+            float percent2 = Mathf.Clamp(distanceToGround / hoverHeight, 0, 1);
             float percent = (percent1 + percent2)/2;
             float acceleration = hoverForce * hoverFalloff.Evaluate(percent);
-            verticalVelocity -= acceleration * Time.deltaTime;
+            pawn.verticalVelocity -= acceleration * Time.deltaTime;
 
-            up = Vector3.Lerp(hit1.normal, Vector3.up, Mathf.Clamp(distance/2,0,1));
+            up = Vector3.Lerp(hit1.normal, Vector3.up, Mathf.Clamp(distanceToGround/2,0,1));
         } else {
             up = Vector3.up;
         }
@@ -163,25 +152,22 @@ public class ReindeerTeam : MonoBehaviour
         transform.rotation = AnimMath.Slide(transform.rotation, targetRotation, .01f, Time.fixedDeltaTime);
     }
     void Move(){
-        Hover();
+        
+        // hover
+        //Hover();
+
         if(nextRow == null) {
+            // move the first reindeer
             Vector3 steerForce = inputDirection * accelerationFromInput - moveDirection;
             moveDirection += steerForce * Time.fixedDeltaTime;
-            pawn.Move((moveDirection * speedMultiplier + verticalVelocity * Vector3.down)  * Time.fixedDeltaTime);
-            if (pawn.isGrounded) {
-                verticalVelocity = 0;
-            }
+            pawn.Move(moveDirection * speedMultiplier);
         } else {
-
+            // slide towards next reindeer
             Vector3 d = nextRow.transform.position - this.transform.position;
             Vector3 moveTo = nextRow.transform.position - ReindeerTeam.space_between_rows * d.normalized;
 
-            moveDirection = moveTo - transform.position;
-            
-            pawn.Move((moveDirection * speedMultiplier + verticalVelocity * Vector3.down)  * Time.fixedDeltaTime);
-            if (pawn.isGrounded) {
-                verticalVelocity = 0;
-            }
+            moveDirection = moveTo - transform.position;  
+            pawn.Move(moveDirection * speedMultiplier);
         }
     }
 }

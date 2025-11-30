@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7161654643154238966}
   - component: {fileID: 7161654643154238963}
   - component: {fileID: 7161654643154238962}
+  - component: {fileID: 2067708684667733659}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -65,9 +66,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 128
   gravityMultiplier: 10
   jumpImpulse: 10
   interactiveZones: []
+--- !u!114 &2067708684667733659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7161654643154238961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa26f9008ee6410489d06d8dd0041e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  leaveGroundDistanceThreshold: 0.5
+  gravityMultiplier: 20
+  jumpImpulse: 10
 --- !u!1001 &7092084284307043878
 PrefabInstance:
   m_ObjectHideFlags: 0

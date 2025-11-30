@@ -19,9 +19,6 @@ public class CameraOrbit : MonoBehaviour {
         cam = GetComponentInChildren<Camera>();
 
     }
-    void Update() {
-        PlayerOrbitCamera();
-    }
     void FixedUpdate(){
 
         Vector3 easeTowards = player.transform.position;
@@ -30,9 +27,12 @@ public class CameraOrbit : MonoBehaviour {
         transform.position = AnimMath.Slide(transform.position, easeTowards, .001f, Time.fixedDeltaTime);
 
         // rotate camera towards pitch/yaw:
-        transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.Euler(pitch, yaw, 0), .001f, Time.fixedDeltaTime);
+        transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.Euler(pitch, yaw, 0), .0001f, Time.fixedDeltaTime);
     }
-    private void PlayerOrbitCamera() {
+    void Update() {
+        RotateRigFromInput();
+    }
+    private void RotateRigFromInput() {
         float mx1 = Input.GetAxisRaw("Mouse X") * cameraMouseSensitivityX;
         float my1 = Input.GetAxisRaw("Mouse Y") * cameraMouseSensitivityY;
 
@@ -49,4 +49,5 @@ public class CameraOrbit : MonoBehaviour {
 
         pitch = Mathf.Clamp(pitch, -10, 89);
     }
+
 }

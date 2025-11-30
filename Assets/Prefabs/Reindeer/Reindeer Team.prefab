@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 235413638979955910}
   - component: {fileID: 235413638979955906}
   - component: {fileID: 235413638979955908}
+  - component: {fileID: 981786700695907428}
   m_Layer: 0
   m_Name: Reindeer Team
   m_TagString: Untagged
@@ -62,7 +63,7 @@ ConfigurableJoint:
     damper: 1
   m_LinearLimit:
     limit: 0.1
-    bounciness: 0
+    bounciness: 1
     contactDistance: 0
   m_AngularXLimitSpring:
     spring: 10000
@@ -154,12 +155,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.0011328496
       value: 0.99809474
-      inSlope: 0.04695062
-      outSlope: 0.04695062
+      inSlope: -3.5849054
+      outSlope: -3.5849054
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.082003124
+      outWeight: 0.0328427
     - serializedVersion: 3
       time: 0.9954834
       value: 0
@@ -213,6 +214,24 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &981786700695907428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235413638979955911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa26f9008ee6410489d06d8dd0041e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  leaveGroundDistanceThreshold: 1
+  gravityMultiplier: 20
+  jumpImpulse: 10
 --- !u!1 &235413639245510534
 GameObject:
   m_ObjectHideFlags: 0
